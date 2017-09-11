@@ -1,0 +1,62 @@
+/* ==================================== base.html styles ======================================== */
+.add-margin-top {
+    margin-top:5%;
+}
+
+body{
+    background-color: rgb(242, 243, 244);
+}
+
+/* ===================================== Homepage styles ======================================== */
+.navbar-default {
+    font-size: 17px;
+    margin: 0;
+    padding: 7px;
+    /*opacity: 0.5;*/
+}
+
+nav .navbar-brand {
+    font-size: 20px;
+}
+
+/*change default hover on links*/
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-brand:hover {
+    color: #2E3134;
+}
+
+/*change default active links*/
+.navbar-default .navbar-nav> .active > a,
+.navbar-default .navbar-nav> .active > a:focus,
+.navbar-default .navbar-nav> .active > a:hover {
+
+}
+
+/*change default behaviour of jumbotron*/
+.jumbotron {
+    margin-bottom: 0px;
+    height: 350px;
+    color: white;
+    background-color: #2E3134;
+    border-radius: 0px !important;
+}
+
+.section-heading {
+    color: #2E3134;
+}
+
+.hr-line {
+    max-width:50px;
+    border-top: 2px solid #2E3134;
+}
+
+
+/* ===================================== Profile styles ======================================== */
+.list-group-item{
+    border-radius: 0px !important;
+}
+
+.thumbnail{
+    border-radius: 0px !important;
+}
