@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> A Simple Note Taking Web App </title>
+        <link rel='stylesheet' href='{{ url_for("static", filename="css/bootstrap.min.css") }}'>
+        <link rel='stylesheet' href='{{ url_for("static", filename="css/base.css") }}'>
+    </head>
+    <body>
+         <!-- data-spy="scroll" data-target=".navbar" data-offset="10" -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">
+                        &lt Take Notes &gt
+                    </a>
+                </div><!-- ./navbar-header -->
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav" id="navbar-links">
+                            <li>
+                                <a href="#home"> HOME </a>
+                            </li>
+                            <li>
+                                <a href="#about"> ABOUT US </a>
+                            </li>
+                            <li>
+                                <a href="/"> CONTACT US </a>
+                            </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if username %}
+                            <li><a href="/logout/"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+                        {% else %}
+                            <li><a href="/signup/"><span class="glyphicon glyphicon-user"></span> Sign Up </a></li>
+                            <li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span> Login </a></li>
+                        {% endif %}
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div><!-- ./container-->
+        </nav>
+        <div class="add-margin-top"></div>
+        {% block content %}
+
+        {% endblock %}
+    </body>
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+</html>
