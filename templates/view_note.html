@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="container" style="padding-top: 2%">
+        <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2">
+            <div class="thumbnail">
+                <h2>Note Title: </h2>
+                <h2>Note Saved On: </h2>
+            </div>
+        </div> <!-- ./column -->
+
+        <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
+            <div class="thumbnail">
+                {% for note in notes %}
+                    <h2>{{ note[0] }}</h2>
+                    <h2>{{ note[1] }}</h2>
+                {% endfor %}
+            </div>
+        </div>
+    </div> <!-- ./container -->
+{% endblock %}

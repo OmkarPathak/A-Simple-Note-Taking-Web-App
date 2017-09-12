@@ -24,6 +24,14 @@
                 </div><!-- ./navbar-header -->
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav" id="navbar-links">
+                        {% if username %}
+                            <li>
+                                <a href="/notes/add/">NEW NOTE</a>
+                            </li>
+                            <li>
+                                <a href="/profile/">VIEW ALL NOTES</a>
+                            </li>
+                        {% else %}
                             <li>
                                 <a href="#home"> HOME </a>
                             </li>
@@ -33,6 +41,7 @@
                             <li>
                                 <a href="/"> CONTACT US </a>
                             </li>
+                        {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if username %}
@@ -46,6 +55,7 @@
             </div><!-- ./container-->
         </nav>
         <div class="add-margin-top"></div>
+        {{ content }}
         {% block content %}
 
         {% endblock %}
