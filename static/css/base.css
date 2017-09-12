@@ -57,6 +57,21 @@ nav .navbar-brand {
     border-radius: 0px !important;
 }
 
-.thumbnail{
-    border-radius: 0px !important;
+.thumbnail {
+    border-radius: 0px;
+    box-shadow: 2px 2px 2px #D6DBDF;
+    border-style: none;
+    border: 0;
+    color: #2E3134;
+}
+
+.thumbnail:hover {
+    box-shadow: 2px 2px 2px #A6ACAF;
+    border-style: none;
+    border: 0;
+    text-decoration: none;
+}
+
+.no_borders{
+    border-radius: 0px;
 }
