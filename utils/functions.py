@@ -29,8 +29,9 @@ def check_user_exists(username, password):
     try:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM users WHERE username=? AND password=?', (username, password))
-        if cursor.fetchone():
-            return True
+        result = cursor.fetchone()
+        if result:
+            return result[0]
     except:
         return False
 
@@ -56,27 +57,68 @@ def signup_user(username, password, email):
         return
     except:
         cursor.close()
-        print('Something went wrong!')
+
+
+def get_data_using_user_id(id):
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM notes WHERE user_id=' + str(id))
+        results = cursor.fetchall()
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
+
+def get_data_using_id(id):
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM notes WHERE id=' + str(id))
+        results = cursor.fetchall()
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
+
+def get_data():
+    conn = get_database_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM notes')
+    results = cursor.fetchall()
+    cursor.close()
+    return results
+
+
+def add_note(note_title, note, user_id):
+    conn = get_database_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO notes(note_title, note, user_id) VALUES (?, ?, ?)", (note_title, note, user_id))
+    conn.commit()
+    cursor.close()
+    return
 
 
 # def dummy_data():
 #     conn = get_database_connection()
 #     cursor = conn.cursor()
-#     cursor.execute("INSERT INTO users(username, password) VALUES (?, ?)", ('omkarpathak', '8149omkar'))
+#     cursor.execute("INSERT INTO notes(note_title, note) VALUES (?, ?)", ('First', 'Yoo First Note'))
 #     conn.commit()
 #     cursor.close()
 
 
-# def select_data():
-#     conn = get_database_connection()
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT * FROM users')
-#     print(cursor.fetchall())
-#     cursor.close()
+def select_data():
+    conn = get_database_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM notes')
+    print(cursor.fetchall())
+    cursor.close()
 
 
-# if __name__ == '__main__':
-#     # dummy_data()
-#     signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
-#     select_data()
-
+if __name__ == '__main__':
+    # dummy_data()
+    # signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
+    select_data()
+    # print(get_data_using_id(1))

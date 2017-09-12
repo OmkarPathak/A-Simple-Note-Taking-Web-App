@@ -2,8 +2,11 @@ CREATE TABLE `notes` (
   `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `created` TIMESTAMP NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
   `updated` TIMESTAMP NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
-  `note` VARCHAR(255),
-  `tags` VARCHAR(200)
+  `note_title` VARCHAR(255),
+  `note` TEXT,
+  `tags` VARCHAR(200),
+  `user_id` INTEGER,
+  FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
 CREATE TRIGGER `triggerDate` AFTER UPDATE ON `notes`
@@ -17,7 +20,7 @@ CREATE TABLE `users` (
   `last_login` TIMESTAMP NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
   `username` VARCHAR(255),
   `password` VARCHAR(200),
-  `email` VARCHAR(200)
+  `email` VARCHAR(200),
 );
 
 CREATE TRIGGER `triggerUserLogin` AFTER UPDATE ON `users`
