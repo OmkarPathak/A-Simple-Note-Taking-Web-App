@@ -3,17 +3,27 @@
 {% block content %}
     <div class="container" style="padding-top: 2%">
         <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2">
-            <div class="thumbnail">
-                <h2>Note Title: </h2>
-                <h2>Note Saved On: </h2>
+            <div class="thumbnail" style="padding: 3%">
+                {% for note in notes %}
+                    <legend><h3 class="text-center"><b>Note Details:</b></h3></legend>
+                    <h4><b>Note Added on:</b> <br><br> {{ note[1] | custom_date }}</h4>
+                    <br>
+                    <h4><b>Note Updated on:</b> <br><br> {{ note[2] | custom_date }}</h4>
+                    <br>
+                    <h4><b>Note Title:</b> <br><br> {{ note[3] }}</h4>
+                {% endfor %}
             </div>
         </div> <!-- ./column -->
 
         <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
-            <div class="thumbnail">
+            <div class="thumbnail"  style="padding: 3%">
                 {% for note in notes %}
-                    <h2>{{ note[0] }}</h2>
-                    <h2>{{ note[1] }}</h2>
+                    <a href="/notes/edit/{{ note[0] }}/" class="pull-right">
+                        <button type="button" class="btn btn-info">
+                            <span class="glyphicon glyphicon-edit"></span> Edit
+                        </button>
+                    </a>
+                    <h2>{{ note[4] | safe }}</h2>
                 {% endfor %}
             </div>
         </div>

@@ -18,7 +18,7 @@
             </div>
             {% endfor %}
 
-            <form method="POST" action="/notes/add/">
+            <form method="POST" action="/notes/edit/{{ id }}/">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     {{ form.csrf_token }}
                     <h3>{{ form.note_title.label }}</h3>
@@ -38,7 +38,7 @@
                     <!-- {{ form.note(class='form-control no_borders', cols="35", rows="20") }} -->
                     {{ form.note(class='form-control no_borders', rows=20, cols="35") }}
                     <br>
-                    {{ form.submit(class='form-control no_borders btn btn-primary') }}
+                    <input type="submit" value="Update" class='form-control no_borders btn btn-primary'>
                 </div>
             </form>
         </div>

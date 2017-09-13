@@ -55,12 +55,13 @@
             </div><!-- ./container-->
         </nav>
         <div class="add-margin-top"></div>
-        {{ content }}
         {% block content %}
 
         {% endblock %}
+        <div class="add-margin-bottom"></div>
     </body>
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    {{ pagedown.include_pagedown() }}
 </html>
