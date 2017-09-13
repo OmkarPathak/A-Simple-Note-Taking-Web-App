@@ -4,6 +4,7 @@ CREATE TABLE `notes` (
   `updated` TIMESTAMP NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')),
   `note_title` VARCHAR(255),
   `note` TEXT,
+  `note_markdown` TEXT,
   `tags` VARCHAR(200),
   `user_id` INTEGER,
   FOREIGN KEY(user_id) REFERENCES users(id)
