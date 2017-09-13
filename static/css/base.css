@@ -3,6 +3,10 @@
     margin-top:5%;
 }
 
+.add-margin-bottom {
+    margin-bottom:5%;
+}
+
 body{
     background-color: rgb(242, 243, 244);
 }
@@ -74,4 +78,22 @@ nav .navbar-brand {
 
 .no_borders{
     border-radius: 0px;
+}
+
+.flask-pagedown-preview {
+    margin-top: 2%;
+    padding: 2%;
+    background-color: white;
+    box-shadow: 2px 2px 2px #D6DBDF;
+}
+
+.flask-pagedown-preview::before {
+    content: "Preview:";
+    font-weight: bold;
+    font-size: 18;
+}
+
+.inline-headers h3, .inline-headers h5 {
+  display: inline-block;
+  vertical-align: baseline;
 }
