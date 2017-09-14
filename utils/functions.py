@@ -40,6 +40,20 @@ def check_user_exists(username, password):
         return False
 
 
+def store_last_login(user_id):
+    '''
+        Checks whether a user exists with the specified username and password
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE users SET last_login=(strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')) WHERE id=?", (user_id, ))
+        conn.commit()
+        cursor.close()
+    except:
+        cursor.close()
+
+
 def check_username(username):
     '''
         Checks whether a username is already taken or not
@@ -70,9 +84,26 @@ def signup_user(username, password, email):
         cursor.close()
 
 
-def get_data_using_user_id(id):
+def get_user_data(user_id):
     '''
         Function for getting the data of a specific user using his user_id
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE id=?', (str(user_id), ))
+        results = cursor.fetchall()
+        cursor.close()
+        if len(results) == 0:
+            return None
+        return results
+    except:
+        cursor.close()
+
+
+def get_data_using_user_id(id):
+    '''
+        Function for getting the data of all notes using user_id
     '''
     conn = get_database_connection()
     try:
@@ -80,6 +111,8 @@ def get_data_using_user_id(id):
         cursor.execute('SELECT * FROM notes WHERE user_id=' + str(id))
         results = cursor.fetchall()
         cursor.close()
+        if len(results) == 0:
+            return None
         return results
     except:
         cursor.close()
@@ -100,41 +133,65 @@ def get_data_using_id(id):
         cursor.close()
 
 
+def get_number_of_notes(id):
+    '''
+        Function for retrieving number of notes stored by a specific user
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT COUNT(note) FROM notes WHERE user_id=' + str(id))
+        results = cursor.fetchone()[0]
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
+
 def get_data():
     '''
         Function for getting data of all notes
     '''
     conn = get_database_connection()
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM notes')
-    results = cursor.fetchall()
-    cursor.close()
-    return results
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM notes')
+        results = cursor.fetchall()
+        cursor.close()
+        return results
+    except:
+        cursor.close()
 
 
-def add_note(note_title, note, note_markdown, user_id):
+def add_note(note_title, note, note_markdown, tags, user_id):
     '''
         Function for adding note into the database
     '''
     conn = get_database_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO notes(note_title, note, note_markdown, user_id) VALUES (?, ?, ?, ?)", (note_title, note, note_markdown, user_id))
-    conn.commit()
-    cursor.close()
-    return
+    try:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO notes(note_title, note, note_markdown, tags, user_id) VALUES (?, ?, ?, ?, ?)", (note_title, note, note_markdown, tags, user_id))
+        conn.commit()
+        cursor.close()
+        return
+    except:
+        cursor.close()
 
 
-def edit_note(note_title, note, note_markdown, user_id):
+def edit_note(note_title, note, note_markdown, tags, note_id):
     '''
         Function for adding note into the database
     '''
     conn = get_database_connection()
-    cursor = conn.cursor()
-    print("UPDATE notes SET note_title=?, note=?, note_markdown=? WHERE user_id=?", (note_title, note, note_markdown, user_id))
-    cursor.execute("UPDATE notes SET note_title=?, note=?, note_markdown=? WHERE user_id=?", (note_title, note, note_markdown, user_id))
-    conn.commit()
-    cursor.close()
-    return
+    try:
+        cursor = conn.cursor()
+        # print("UPDATE notes SET note_title=?, note=?, note_markdown=?, tags=? WHERE id=?", (note_title, note, note_markdown, tags, note_id))
+        cursor.execute("UPDATE notes SET note_title=?, note=?, note_markdown=?, tags=? WHERE id=?", (note_title, note, note_markdown, tags, note_id))
+        conn.commit()
+        cursor.close()
+        return
+    except:
+        cursor.close()
 
 
 def delete_note_using_id(id):
@@ -142,16 +199,134 @@ def delete_note_using_id(id):
         Function for deleting a specific note using its id
     '''
     conn = get_database_connection()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM notes WHERE id=" + str(id))
-    conn.commit()
-    cursor.close()
-    return
+    try:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM notes WHERE id=" + str(id))
+        conn.commit()
+        cursor.close()
+        return
+    except:
+        cursor.close()
 
 
 def generate_password_hash(password):
+    '''
+        Function for generating a password hash
+    '''
     hashed_value = hashlib.md5(password.encode())
     return hashed_value.hexdigest()
+
+
+def add_tag(tag, user_id):
+    '''
+        Function for adding a tag into the database
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO tags(tag, user_id) VALUES (?, ?)", (tag, user_id))
+        conn.commit()
+        cursor.close()
+        return
+    except:
+        cursor.close()
+
+
+def get_all_tags(user_id):
+    '''
+        Function for getting all tags for a specific user
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT id, tag FROM tags WHERE user_id=?', (str(user_id), ))
+        results = cursor.fetchall()
+        if len(results) > 0:
+            results = [(str(results[i][0]), results[i][1]) for i in range(len(results))]
+        else:
+            results = None
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
+
+def get_tag_using_id(id):
+    '''
+        Get the tags associated with each note
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT tags FROM notes WHERE id=?', (str(id), ))
+        results = cursor.fetchall()
+        # results = [(str(results[i][0]), results[i][1]) for i in range(len(results))]
+        results = results[0][0].split(',')
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
+
+def delete_tag_using_id(tag_id):
+    '''
+        Function for deleting a specific tag using its id
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM tags WHERE id=" + str(tag_id))
+        conn.commit()
+        cursor.close()
+        return
+    except:
+        cursor.close()
+
+
+def get_number_of_tags(id):
+    '''
+        Function for retrieving number of tags stored by a specific user
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT COUNT(tag) FROM tags WHERE user_id=' + str(id))
+        results = cursor.fetchone()[0]
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
+
+def edit_email(email, user_id):
+    '''
+        Function for adding note into the database
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE users SET email=? WHERE id=?", (email, user_id))
+        conn.commit()
+        cursor.close()
+        return
+    except:
+        cursor.close()
+
+
+def edit_password(password, user_id):
+    '''
+        Function for adding note into the database
+    '''
+    conn = get_database_connection()
+    password = generate_password_hash(password)
+    try:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE users SET password=? WHERE id=?", (password, user_id))
+        conn.commit()
+        cursor.close()
+        return
+    except:
+        cursor.close()
 
 # def dummy_data():
 #     conn = get_database_connection()
@@ -172,5 +347,5 @@ def generate_password_hash(password):
 # if __name__ == '__main__':
 #     # dummy_data()
 #     # signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
-#     select_data()
+#     print(get_all_tags())
 #     # print(get_data_using_id(1))
