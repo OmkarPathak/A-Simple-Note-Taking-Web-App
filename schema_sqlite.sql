@@ -28,3 +28,10 @@ CREATE TRIGGER `triggerUserLogin` AFTER UPDATE ON `users`
 BEGIN
    update `users` SET `last_login` = (strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')) WHERE id = NEW.id;
 END;
+
+CREATE TABLE `tags` (
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `tag` TEXT,
+  `user_id` INTEGER,
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
