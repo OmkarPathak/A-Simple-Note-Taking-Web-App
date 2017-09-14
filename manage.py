@@ -1,11 +1,15 @@
 from flask import Flask, render_template, redirect, request, flash, session
-from utils.forms import LoginForm, SignUpForm, AddNoteForm
-import utils.functions as functions
+from utils.forms import (
+    LoginForm, SignUpForm,
+    AddNoteForm, AddTagForm,
+    ChangeEmailForm, ChangePasswordForm
+)
 from utils.decorators import login_required
 from flask_pagedown import PageDown
-import markdown
 from flask import Markup
+import utils.functions as functions
 import datetime
+import markdown
 
 app = Flask(__name__)
 pagedown = PageDown(app)
@@ -14,12 +18,15 @@ app.secret_key = '8149omkar'
 
 @app.route('/')
 def home_page():
+    '''
+        App for hompage
+    '''
     try:
         if session['username']:
             return render_template('index.html', username=session['username'])
-        return render_template('index.html')
+        return render_template('homepage.html')
     except (KeyError, ValueError):
-        return render_template('index.html')
+        return render_template('homepage.html')
 
 
 @app.route('/profile/')
@@ -46,6 +53,7 @@ def login():
         if user_id:
             session['username'] = username
             session['id'] = user_id
+            functions.store_last_login(session['id'])
             return redirect('/profile/')
         else:
             flash('Username/Password Incorrect!')
@@ -91,11 +99,23 @@ def add_note():
         App for adding note
     '''
     form = AddNoteForm()
+    form.tags.choices = functions.get_all_tags(session['id'])
+
+    if form.tags.choices is None:
+        form.tags = None
+
     if form.validate_on_submit():
         note_title = request.form['note_title']
         note_markdown = form.note.data
         note = Markup(markdown.markdown(note_markdown))
-        functions.add_note(note_title, note, note_markdown, session['id'])
+
+        try:
+            tags = form.tags.data
+            tags = ','.join(tags)
+        except:
+            tags = None
+
+        functions.add_note(note_title, note, note_markdown, tags, session['id'])
         return redirect('/profile/')
     return render_template('add_note.html', form=form, username=session['username'])
 
@@ -110,22 +130,40 @@ def view_note(id):
     return render_template('view_note.html', notes=notes, username=session['username'])
 
 
-@app.route("/notes/edit/<id>/", methods=['GET', 'POST'])
+@app.route("/notes/edit/<note_id>/", methods=['GET', 'POST'])
 @login_required
-def edit_note(id):
+def edit_note(note_id):
+    '''
+        App for editing a particular note
+    '''
     form = AddNoteForm()
+    form.tags.choices = functions.get_all_tags(session['id'])
+    form.tags.default = functions.get_tag_using_id(note_id)
+    form.tags.process(request.form)
+
+    if form.tags.choices is None:
+        form.tags = None
+
     if request.method == 'GET':
-        data = functions.get_data_using_id(id)
+        data = functions.get_data_using_id(note_id)
+        form.note_id.data = note_id
         form.note_title.data = data[0][3]
         form.note.data = data[0][5]
-        return render_template('edit_note.html', form=form, username=session['username'], id=session['id'])
+        return render_template('edit_note.html', form=form, username=session['username'], id=note_id)
     elif form.validate_on_submit():
-            note_title = request.form['note_title']
-            note_markdown = form.note.data
-            print(note_markdown)
-            note = Markup(markdown.markdown(note_markdown))
-            functions.edit_note(note_title, note, note_markdown, session['id'])
-            return redirect('/profile/')
+        note_id = form.note_id.data
+        note_title = request.form['note_title']
+        note_markdown = form.note.data
+
+        try:
+            tags = form.tags.data
+            tags = ','.join(tags)
+        except:
+            tags = None
+
+        note = Markup(markdown.markdown(note_markdown))
+        functions.edit_note(note_title, note, note_markdown, tags, note_id=note_id)
+        return redirect('/profile/')
 
 
 @app.route("/notes/delete/<id>/", methods=['GET', 'POST'])
@@ -139,6 +177,41 @@ def delete_note(id):
     return render_template('profile.html', delete=True, username=session['username'], notes=notes)
 
 
+@app.route("/tags/add/", methods=['GET', 'POST'])
+@login_required
+def add_tag():
+    '''
+        App for adding a tag
+    '''
+    form = AddTagForm()
+    if form.validate_on_submit():
+        tag = request.form['tag']
+        functions.add_tag(tag, session['id'])
+        return redirect('/profile/')
+    return render_template('add_tag.html', form=form, username=session['username'])
+
+
+@app.route("/tags/")
+@login_required
+def view_tag():
+    '''
+        App for viewing all available tags
+    '''
+    tags = functions.get_all_tags(session['id'])
+    return render_template('edit_tag.html', tags=tags, username=session['username'])
+
+
+@app.route("/tags/delete/<tag_id>/")
+@login_required
+def delete_tag(tag_id):
+    '''
+        App for deleting a specific tag
+    '''
+    functions.delete_tag_using_id(tag_id)
+    tags = functions.get_all_tags(session['id'])
+    return render_template('edit_tag.html', tags=tags, delete=True, username=session['username'])
+
+
 # Custom Filter
 @app.template_filter()
 def custom_date(date):
@@ -147,6 +220,43 @@ def custom_date(date):
     '''
     date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
     return date.strftime('%b %d,%Y %H:%M:%S')
+
+
+@app.route("/profile/settings/")
+@login_required
+def profile_settings():
+    user_data = functions.get_user_data(session['id'])
+    notes_count = functions.get_number_of_notes(session['id'])
+    tag_count = functions.get_number_of_tags(session['id'])
+    return render_template(
+        'profile_settings.html',
+        user_data=user_data,
+        username=session['username'],
+        notes_count=notes_count,
+        tag_count=tag_count
+    )
+
+
+@app.route("/profile/settings/change_email/", methods=['GET', 'POST'])
+@login_required
+def change_email():
+    form = ChangeEmailForm()
+    if form.validate_on_submit():
+        email = request.form['email']
+        functions.edit_email(email, session['id'])
+        return redirect('/profile/settings/')
+    return render_template('change_email.html', form=form, username=session['username'])
+
+
+@app.route("/profile/settings/change_password/", methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        password = request.form['password']
+        functions.edit_password(password, session['id'])
+        return redirect('/profile/settings/')
+    return render_template('change_password.html', form=form, username=session['username'])
 
 
 if __name__ == '__main__':
