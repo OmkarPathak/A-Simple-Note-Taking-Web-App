@@ -46,6 +46,10 @@ nav .navbar-brand {
     border-radius: 0px !important;
 }
 
+.jumbotron .element {
+    color: white;
+}
+
 .section-heading {
     color: #2E3134;
 }
