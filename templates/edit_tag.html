@@ -7,28 +7,26 @@
                 {% if delete %}
                     <div class="alert alert-danger">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        Note deleted successfully
+                        Tag deleted successfully
                     </div>
                 {% endif %}
                 <!-- <h1>Welcome, {{ username }}</h1> -->
-                {% if notes %}
+                {% if tags %}
                     <table class="table table-hover table-striped table-bordered" style="background-color: white;">
                         <thead class="text-center">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>Note Title</th>
-                                <th>Note Saved on</th>
+                                <th>Tag</th>
                                 <th class="text-center">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for note in notes %}
+                            {% for tag in tags %}
                                 <tr>
                                     <td class="text-center">{{ loop.index }}</td>
-                                    <td> <a href="/notes/{{ note[0] }}/">{{ note[3] }}</a></td>
-                                    <td>{{ note[1] | custom_date }}</td>
+                                    <td>{{ tag[1] }}</td>
                                     <td class="text-center">
-                                        <a href="/notes/delete/{{ note[0] }}/"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <a href="/tags/delete/{{ tag[0] }}/"><span class="glyphicon glyphicon-trash"></span></a>
                                     </td>
                                 </tr>
                             {%  endfor %}
@@ -36,7 +34,7 @@
                     </table>
                 {% else %}
                     <div class="alert alert-danger">
-                        You have no notes added! Let's add one <a href="/notes/add/">here</a>
+                        You have no tags added! Let's add one <a href="/tags/add/">here</a>
                     </div>
                 {% endif %}
             {% endif %}

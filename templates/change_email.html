@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            {% for message in form.email.errors %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+
+            <form method="POST" action="/profile/settings/change_email/">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-md-offset-3 col-lg-offset-3 text-center">
+                    {{ form.csrf_token }}
+                    <h3>{{ form.email.label }}</h3>
+                    <br>
+                    {{ form.email(class='form-control no_borders') }}
+                    <br>
+                    {{ form.submit(class='form-control no_borders btn btn-primary') }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

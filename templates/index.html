@@ -31,21 +31,43 @@
                             <li>
                                 <a href="/profile/">VIEW ALL NOTES</a>
                             </li>
+                            <li>
+                                <a href="/tags/add/">NEW TAG</a>
+                            </li>
+                            <li>
+                                <a href="/tags/">VIEW ALL TAGS</a>
+                            </li>
                         {% else %}
                             <li>
-                                <a href="#home"> HOME </a>
-                            </li>
-                            <li>
-                                <a href="#about"> ABOUT US </a>
-                            </li>
-                            <li>
-                                <a href="/"> CONTACT US </a>
+                                <a href="/"> HOME </a>
                             </li>
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if username %}
-                            <li><a href="/logout/"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Welcome, {{ username }} <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="/profile/settings/" class="dropdown-item">
+                                            <span class="glyphicon glyphicon-cog"></span> Profile Settings
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/profile/settings/change_password/" class="dropdown-item">
+                                            <span class="glyphicon glyphicon-wrench"></span>
+                                            Update Password
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/logout/" class="dropdown-item">
+                                            <span class="glyphicon glyphicon-log-out"></span> Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         {% else %}
                             <li><a href="/signup/"><span class="glyphicon glyphicon-user"></span> Sign Up </a></li>
                             <li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span> Login </a></li>
@@ -63,5 +85,15 @@
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/typed.min.js') }}"></script>
     {{ pagedown.include_pagedown() }}
+    <script type="text/javascript">
+        var typed3 = new Typed('.element', {
+           strings: ['A Simple Note Taking App', 'A Simple Web App', 'A Simple Note Taking  Web App'],
+           typeSpeed: 100,
+           backSpeed: 100,
+           smartBackspace: true, // this is a default
+           loop: true,
+         });
+    </script>
 </html>

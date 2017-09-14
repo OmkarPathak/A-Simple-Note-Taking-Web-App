@@ -11,6 +11,10 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endfor %}
 
+            {% for message in form.tags.errors %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+
             {% for message in get_flashed_messages() %}
             <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -21,11 +25,17 @@
             <form method="POST" action="/notes/edit/{{ id }}/">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     {{ form.csrf_token }}
+                    <h3>{{ form.note_id }}</h3>
+                    <br>
                     <h3>{{ form.note_title.label }}</h3>
                     <br>
                     {{ form.note_title(class='form-control no_borders') }}
                     <br>
-                    <h3>Note Tags:</h3>
+                    {% if form.tags %}
+                    <h3>{{ form.tags.label }}</h3>
+                    <br>
+                    {{ form.tags(class='form-control no_borders') }}</h3>
+                    {% endif %}
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <div class="inline-headers">

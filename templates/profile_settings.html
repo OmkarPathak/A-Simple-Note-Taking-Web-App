@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="container" style="padding-top: 2%">
+        <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2">
+            <div class="thumbnail" style="padding: 3%">
+                {% for user in user_data %}
+                    <legend><h3 class="text-center"><b>User Details:</b></h3></legend>
+                    <h4><b>Registered on:</b> <br><br> {{ user[1] | custom_date }}</h4>
+                    <br>
+                    <h4><b>Last Logged in on:</b> <br><br> {{ user[2] | custom_date }}</h4>
+                    <br>
+                    <h4><b>Email: <a href="/profile/settings/change_email/"><span class="glyphicon glyphicon-pencil"></span></a></b> <br><br> {{ user[5] }}</h4>
+                    <br>
+                    <h4><b>Username:</b> <br><br> {{ user[3] }}</h4>
+                {% endfor %}
+            </div>
+        </div> <!-- ./column -->
+
+        <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
+            <div class="thumbnail"  style="padding: 3%">
+                <a href="/profile/">
+                    <h3>Notes <span class="badge">{{ notes_count }}</span></h3>
+                </a>
+                <br>
+                <a href="/tags/">
+                    <h3>Tags <span class="badge">{{ tag_count }}</span></h3>
+                </a>
+            </div>
+        </div>
+    </div> <!-- ./container -->
+{% endblock %}

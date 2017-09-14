@@ -11,6 +11,10 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endfor %}
 
+            {% for message in form.tags.errors %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+
             {% for message in get_flashed_messages() %}
             <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -25,7 +29,11 @@
                     <br>
                     {{ form.note_title(class='form-control no_borders') }}
                     <br>
-                    <h3>Note Tags:</h3>
+                    {% if form.tags %}
+                    <h3>{{ form.tags.label }}</h3>
+                    <br>
+                    {{ form.tags(class='form-control no_borders') }}</h3>
+                    {% endif %}
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <div class="inline-headers">
@@ -36,7 +44,7 @@
                     </div>
                     <br>
                     <!-- {{ form.note(class='form-control no_borders', cols="35", rows="20") }} -->
-                    {{ form.note(class='form-control no_borders', rows=20, cols="35") }}
+                    {{ form.note(class='form-control no_borders', rows=15, cols="35") }}
                     <br>
                     {{ form.submit(class='form-control no_borders btn btn-primary') }}
                 </div>
