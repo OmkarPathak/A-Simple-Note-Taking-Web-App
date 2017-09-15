@@ -1,19 +1,27 @@
-from flask import Flask, render_template, redirect, request, flash, session
+from flask import (
+    Flask, render_template,
+    redirect, request,
+    flash, session,
+    jsonify
+)
+
 from utils.forms import (
     LoginForm, SignUpForm,
     AddNoteForm, AddTagForm,
     ChangeEmailForm, ChangePasswordForm
 )
+
 from utils.decorators import login_required
 from flask_pagedown import PageDown
 from flask import Markup
 import utils.functions as functions
 import datetime
 import markdown
+import random
 
 app = Flask(__name__)
 pagedown = PageDown(app)
-app.secret_key = '8149omkar'
+app.secret_key = str(random.randint(1, 20))
 
 
 @app.route('/')
@@ -23,7 +31,7 @@ def home_page():
     '''
     try:
         if session['username']:
-            return render_template('index.html', username=session['username'])
+            return render_template('homepage.html', username=session['username'])
         return render_template('homepage.html')
     except (KeyError, ValueError):
         return render_template('homepage.html')
@@ -225,6 +233,9 @@ def custom_date(date):
 @app.route("/profile/settings/")
 @login_required
 def profile_settings():
+    '''
+        App for getting profile settings for a user
+    '''
     user_data = functions.get_user_data(session['id'])
     notes_count = functions.get_number_of_notes(session['id'])
     tag_count = functions.get_number_of_tags(session['id'])
@@ -240,6 +251,9 @@ def profile_settings():
 @app.route("/profile/settings/change_email/", methods=['GET', 'POST'])
 @login_required
 def change_email():
+    '''
+        App for changing the email of a user
+    '''
     form = ChangeEmailForm()
     if form.validate_on_submit():
         email = request.form['email']
@@ -251,6 +265,9 @@ def change_email():
 @app.route("/profile/settings/change_password/", methods=['GET', 'POST'])
 @login_required
 def change_password():
+    '''
+        App for changing the password of a user
+    '''
     form = ChangePasswordForm()
     if form.validate_on_submit():
         password = request.form['password']
@@ -258,6 +275,21 @@ def change_password():
         return redirect('/profile/settings/')
     return render_template('change_password.html', form=form, username=session['username'])
 
+
+@app.route('/background_process/')
+def background_process():
+    '''
+        App for handling AJAX request for searching notes
+    '''
+    try:
+        notes = request.args.get('notes')
+        results = functions.get_search_data(str(notes), session['id'])
+        abc = ''
+        for i in range(len(results)):
+            abc += "<h4><a href='/notes/" + str(results[i][0]) + "/'>" + results[i][1] + "</a></h4><br>"
+        return jsonify(result=Markup(abc))
+    except Exception as e:
+        return str(e)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
