@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container" style="padding-top: 2%">
-        <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div class="thumbnail" style="padding: 3%">
                 {% for user in user_data %}
                     <legend><h3 class="text-center"><b>User Details:</b></h3></legend>
@@ -17,11 +17,16 @@
             </div>
         </div> <!-- ./column -->
 
-        <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="thumbnail"  style="padding: 3%">
                 <a href="/profile/">
                     <h3>Notes <span class="badge">{{ notes_count }}</span></h3>
                 </a>
+                <input type="text" id="notes" class="form-control no_borders" autocomplete="off" name="notes" placeholder="Search Note">
+                <div style="padding-top: 20px">
+                    <div id="result"></div>
+                </div>
+                <!-- </form> -->
                 <br>
                 <a href="/tags/">
                     <h3>Tags <span class="badge">{{ tag_count }}</span></h3>

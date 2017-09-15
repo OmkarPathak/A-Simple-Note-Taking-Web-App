@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container" style="padding-top: 2%">
-        <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div class="thumbnail" style="padding: 3%">
                 {% for note in notes %}
                     <legend><h3 class="text-center"><b>Note Details:</b></h3></legend>
@@ -15,7 +15,7 @@
             </div>
         </div> <!-- ./column -->
 
-        <div class="col-lg-8 col-md-8 col-sm-10 col-xs-10">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="thumbnail"  style="padding: 3%">
                 {% for note in notes %}
                     <a href="/notes/edit/{{ note[0] }}/" class="pull-right">

@@ -12,6 +12,11 @@
                 {% endif %}
                 <!-- <h1>Welcome, {{ username }}</h1> -->
                 {% if notes %}
+                    <input type="text" id="notes" class="form-control no_borders" autocomplete="off" name="notes" placeholder="Search Note">
+                    <div style="padding-top: 20px">
+                        <div id="result"></div>
+                    </div>
+                    <br>
                     <table class="table table-hover table-striped table-bordered" style="background-color: white;">
                         <thead class="text-center">
                             <tr>
