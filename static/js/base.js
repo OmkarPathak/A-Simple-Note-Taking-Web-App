@@ -25,14 +25,14 @@ $(document).ready(function(){
 })
 
 // for collapsing navbar on small screen after clicking on a link
-$(document).ready(function() {
-    $("body").click(function(event) {
-            // only do this if navigation is visible, otherwise you see jump in navigation while collapse() is called
-             if ($(".navbar-collapse").is(":visible") && $(".navbar-toggle").is(":visible") ) {
-                $('.navbar-collapse').collapse('toggle');
-            }
-      });
-});
+// $(document).ready(function() {
+//     $("body").click(function(event) {
+//             // only do this if navigation is visible, otherwise you see jump in navigation while collapse() is called
+//              if ($(".navbar-collapse").is(":visible") && $(".navbar-toggle").is(":visible") ) {
+//                 $('.navbar-collapse').collapse('toggle');
+//             }
+//       });
+// });
 
 // add sliding effect
 $(window).scroll(function() {
@@ -45,3 +45,23 @@ $(window).scroll(function() {
         }
     });
 });
+
+// $('#notes').change(function(e) {
+//     e.preventDefault();
+//     $.getJSON('/background_process/', {
+//       notes: $('input[name="notes"]').val(),
+//     }, function(data) {
+//       $("#result").text(data.result);
+//     });
+//     return false;
+// });
+
+$('#notes').keyup(function(){
+     $.getJSON('/background_process/', {
+          notes: $('input[name="notes"]').val(),
+        }, function(data) {
+          $("#result").html(data.result);
+        });
+    return false;
+});
+

@@ -3,6 +3,17 @@
     margin-top:5%;
 }
 
+@media only screen and (max-device-width: 480px) {
+    /* define mobile specific styles come here */
+    .add-margin-top {
+        margin-top:20%;
+    }
+
+    .add-margin-bottom {
+        margin-top:5%;
+    }
+}
+
 .add-margin-bottom {
     margin-bottom:5%;
 }
@@ -98,6 +109,11 @@ nav .navbar-brand {
 }
 
 .inline-headers h3, .inline-headers h5 {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.inline-p p {
   display: inline-block;
   vertical-align: baseline;
 }
