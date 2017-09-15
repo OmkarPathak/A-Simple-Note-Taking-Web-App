@@ -328,6 +328,22 @@ def edit_password(password, user_id):
     except:
         cursor.close()
 
+
+def get_search_data(pattern, user_id):
+    '''
+        Function for searching note based on specified pattern
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM notes WHERE user_id=? AND note_title LIKE ? LIMIT 3", (user_id, '%' + pattern + '%'))
+        results = cursor.fetchall()
+        results = [(results[i][0], results[i][3]) for i in range(len(results))]
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
 # def dummy_data():
 #     conn = get_database_connection()
 #     cursor = conn.cursor()
