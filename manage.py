@@ -45,7 +45,21 @@ def profile():
     '''
     if request.method == 'GET':
         notes = functions.get_data_using_user_id(session['id'])
-        return render_template('profile.html', username=session['username'], notes=notes)
+        tags = []
+        for i in range(len(notes)):
+            tags_list = functions.get_tag_using_note_id(notes[i][0])
+            temp_list = []
+            for j in range(len(tags_list)):
+                temp = functions.get_data_using_tag_id(tags_list[j])
+                if temp is not None:
+                    temp_list.append(temp[0])
+            tags.append(', '.join(temp_list))
+        return render_template(
+            'profile.html',
+            username=session['username'],
+            notes=notes,
+            tags=tags
+        )
 
 
 @app.route('/login/', methods=('GET', 'POST'))
@@ -146,7 +160,7 @@ def edit_note(note_id):
     '''
     form = AddNoteForm()
     form.tags.choices = functions.get_all_tags(session['id'])
-    form.tags.default = functions.get_tag_using_id(note_id)
+    form.tags.default = functions.get_tag_using_note_id(note_id)
     form.tags.process(request.form)
 
     if form.tags.choices is None:
