@@ -23,6 +23,7 @@
                                 <th class="text-center">#</th>
                                 <th>Note Title</th>
                                 <th>Note Saved on</th>
+                                <th>Tags</th>
                                 <th class="text-center">Delete</th>
                             </tr>
                         </thead>
@@ -32,6 +33,9 @@
                                     <td class="text-center">{{ loop.index }}</td>
                                     <td> <a href="/notes/{{ note[0] }}/">{{ note[3] }}</a></td>
                                     <td>{{ note[1] | custom_date }}</td>
+                                    <td>
+                                            {{ tags[loop.index0] }}
+                                    </td>
                                     <td class="text-center">
                                         <a href="/notes/delete/{{ note[0] }}/"><span class="glyphicon glyphicon-trash"></span></a>
                                     </td>
