@@ -251,7 +251,22 @@ def get_all_tags(user_id):
         cursor.close()
 
 
-def get_tag_using_id(id):
+def get_data_using_tag_id(tag_id):
+    '''
+        Function for getting all tags for a specific user
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT tag FROM tags WHERE id=?', (str(tag_id), ))
+        results = cursor.fetchone()
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
+
+def get_tag_using_note_id(id):
     '''
         Get the tags associated with each note
     '''
@@ -360,8 +375,8 @@ def get_search_data(pattern, user_id):
 #     cursor.close()
 
 
-# if __name__ == '__main__':
-#     # dummy_data()
-#     # signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
-#     print(get_all_tags())
-#     # print(get_data_using_id(1))
+if __name__ == '__main__':
+    # dummy_data()
+    # signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
+    print(get_data_using_tag_id('9'))
+    # print(get_data_using_id(1))
