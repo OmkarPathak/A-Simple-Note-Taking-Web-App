@@ -25,6 +25,21 @@ def create_sqlite_tables(conn):
     conn.commit()
 
 
+def get_user_count():
+    '''
+        Checks whether a user exists with the specified username and password
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT COUNT(*) FROM users')
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+    except:
+        return False
+
+
 def check_user_exists(username, password):
     '''
         Checks whether a user exists with the specified username and password
@@ -408,5 +423,5 @@ def get_search_data(pattern, user_id):
 if __name__ == '__main__':
     # dummy_data()
     # signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
-    print(get_tagname_using_tag_id('13'))
+    print(get_user_count())
     # print(get_data_using_id(1))
