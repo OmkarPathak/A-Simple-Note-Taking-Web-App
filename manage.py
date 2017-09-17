@@ -306,11 +306,13 @@ def background_process():
     '''
     try:
         notes = request.args.get('notes')
+        if notes == ' ':
+            return jsonify(result='')
         results = functions.get_search_data(str(notes), session['id'])
-        abc = ''
+        temp = ''
         for i in range(len(results)):
-            abc += "<h4><a href='/notes/" + str(results[i][0]) + "/'>" + results[i][1] + "</a></h4><br>"
-        return jsonify(result=Markup(abc))
+            temp += "<h4><a href='/notes/" + str(results[i][0]) + "/'>" + results[i][1] + "</a></h4><br>"
+        return jsonify(result=Markup(temp))
     except Exception as e:
         return str(e)
 

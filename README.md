@@ -1,11 +1,12 @@
 # A-Simple-Note-Taking-Web-App
 An easy to use and deploy web app built using Flask
+Wanna try this app? Visit: [http://omkarpathak27.pythonanywhere.com/](http://omkarpathak27.pythonanywhere.com/)
 
 # Features:
 
 * Simple Web application, easy to use and *very* easy to deploy locally.
 * Written in simple Python. Even a beginner Python developer can contribute to this.
-* Support for MySQL/SQLite, so you can easily play with it.
+* Support for SQLite, so you can easily play with it.
 
 # Requirements:
 
@@ -13,10 +14,17 @@ An easy to use and deploy web app built using Flask
 `pip3 install -r requirements.txt`
 
 # Usage:
-* Clone this repository
-* Install the dependencies by simply executing `pip3 install -r requirements.txt`
-* Run the command `python3 manage.py`
+* Clone this repository:
+`git clone https://github.com/OmkarPathak/A-Simple-Note-Taking-Web-App.git`
+
+* Install the dependencies by simply executing:
+`pip3 install -r requirements.txt`
+
+* Run this command to start the app:
+`python3 manage.py`
+
 * Visit `0.0.0.0:5000` on your web browser
+
 * Happy Noting :)
 
 Built with ♥ by [`Omkar Pathak`](http://www.omkarpathak.in/)
