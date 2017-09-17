@@ -47,14 +47,15 @@ def profile():
     if request.method == 'GET':
         notes = functions.get_data_using_user_id(session['id'])
         tags = []
-        for i in range(len(notes)):
-            tags_list = functions.get_tag_using_note_id(notes[i][0])
-            temp_list = []
-            for j in range(len(tags_list)):
-                temp = functions.get_data_using_tag_id(tags_list[j])
-                if temp is not None:
-                    temp_list.append(temp[0])
-            tags.append(', '.join(temp_list))
+        if notes:
+            for i in range(len(notes)):
+                tags_list = functions.get_tag_using_note_id(notes[i][0])
+                temp_list = []
+                for j in range(len(tags_list)):
+                    temp = functions.get_data_using_tag_id(tags_list[j])
+                    if temp is not None:
+                        temp_list.append(temp[0])
+                tags.append(', '.join(temp_list))
         return render_template(
             'profile.html',
             username=session['username'],
