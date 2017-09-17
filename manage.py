@@ -232,6 +232,22 @@ def view_tag():
     return render_template('edit_tag.html', tags=tags, username=session['username'])
 
 
+@app.route("/tags/view/<tag_id>")
+@login_required
+def view_notes_using_tag(tag_id):
+    '''
+        App for viewing all available notes tagged under specific tag
+    '''
+    notes = functions.get_notes_using_tag_id(tag_id)
+    tag_name = functions.get_tagname_using_tag_id(tag_id)
+    return render_template(
+        'view_tag.html',
+        notes=notes,
+        username=session['username'],
+        tag_name=tag_name
+    )
+
+
 @app.route("/tags/delete/<tag_id>/")
 @login_required
 def delete_tag(tag_id):
@@ -306,7 +322,7 @@ def background_process():
     '''
     try:
         notes = request.args.get('notes')
-        if notes == ' ':
+        if notes == '':
             return jsonify(result='')
         results = functions.get_search_data(str(notes), session['id'])
         temp = ''
