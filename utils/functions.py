@@ -283,6 +283,21 @@ def get_tag_using_note_id(id):
         cursor.close()
 
 
+def get_tagname_using_tag_id(tag_id):
+    '''
+        Get the tag name using tag id
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT tag FROM tags WHERE id=?', (str(tag_id), ))
+        results = cursor.fetchone()
+        cursor.close()
+        return ''.join(results)
+    except:
+        cursor.close()
+
+
 def delete_tag_using_id(tag_id):
     '''
         Function for deleting a specific tag using its id
@@ -307,6 +322,21 @@ def get_number_of_tags(id):
         cursor = conn.cursor()
         cursor.execute('SELECT COUNT(tag) FROM tags WHERE user_id=' + str(id))
         results = cursor.fetchone()[0]
+        cursor.close()
+        return results
+    except:
+        cursor.close()
+
+
+def get_notes_using_tag_id(tag_id):
+    '''
+        Function for retrieving notes stored by a specific tag
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT id, note_title FROM notes WHERE tags like ?', ('%' + tag_id + '%',))
+        results = cursor.fetchall()
         cursor.close()
         return results
     except:
@@ -378,5 +408,5 @@ def get_search_data(pattern, user_id):
 if __name__ == '__main__':
     # dummy_data()
     # signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
-    print(get_data_using_tag_id('9'))
+    print(get_tagname_using_tag_id('13'))
     # print(get_data_using_id(1))
