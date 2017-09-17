@@ -3,6 +3,11 @@
 {% block content %}
     <div class="container"  style="padding-top: 2%">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="alert alert-info fade in">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Note!</strong> Click on any tag to see notes tagged under that tag.
+            </div>
+            <br>
             {% if username %}
                 {% if delete %}
                     <div class="alert alert-danger">
@@ -24,7 +29,7 @@
                             {% for tag in tags %}
                                 <tr>
                                     <td class="text-center">{{ loop.index }}</td>
-                                    <td>{{ tag[1] }}</td>
+                                    <td><a href="/tags/view/{{ tag[0] }}">{{ tag[1] }}</a></td>
                                     <td class="text-center">
                                         <a href="/tags/delete/{{ tag[0] }}/"><span class="glyphicon glyphicon-trash"></span></a>
                                     </td>
