@@ -34,6 +34,27 @@ Wanna try this app? Visit: [http://omkarpathak27.pythonanywhere.com/](http://omk
 
 Built with ♥ by [`Omkar Pathak`](http://www.omkarpathak.in/)
 
+# Results
+
+## Creating a new note
+Simple innterface with live preview and markdown support
+![Creating a new Note](results/NewNote.png)
+
+## Viewing a note
+Edit box provided to simply edit the note
+![Viewing a note](results/ViewNote.png)
+
+## Adding a tag
+![Adding a tag](results/NewTag.png)
+
+## Viewing all tags
+You can click on any tag to see all notes tagged under *that* tag
+![Viewing all tags](results/ViewTag.png)
+
+## Profile Settings
+Profile settings to see user details, change email and see notes and tags saved by particular user
+![Profile Settings](results/ProfileSettings.png)
+
 # Donation
 
 If you have found my softwares to be of any use to you, do consider helping me pay my internet bills. This would encourage me to create many such softwares :)
