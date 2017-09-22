@@ -38,10 +38,12 @@ Built with ♥ by [`Omkar Pathak`](http://www.omkarpathak.in/)
 
 ## Creating a new note
 Simple innterface with live preview and markdown support
+
 ![Creating a new Note](results/NewNote.png)
 
 ## Viewing a note
 Edit box provided to simply edit the note
+
 ![Viewing a note](results/ViewNote.png)
 
 ## Adding a tag
@@ -49,6 +51,7 @@ Edit box provided to simply edit the note
 
 ## Viewing all tags
 You can click on any tag to see all notes tagged under *that* tag
+
 ![Viewing all tags](results/ViewTag.png)
 
 ## Profile Settings

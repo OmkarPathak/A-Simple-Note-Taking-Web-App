@@ -11,6 +11,7 @@ from utils.forms import (
     ChangeEmailForm, ChangePasswordForm
 )
 
+from flask_restful import Resource, Api, reqparse
 from utils.decorators import login_required
 from flask_pagedown import PageDown
 from flask import Markup
@@ -20,9 +21,10 @@ import markdown
 import random
 
 app = Flask(__name__)
+api = Api(app)
 pagedown = PageDown(app)
+parser = reqparse.RequestParser()
 app.secret_key = str(random.randint(1, 20))
-
 
 @app.route('/')
 def home_page():
@@ -336,6 +338,27 @@ def background_process():
         return jsonify(result=Markup(temp))
     except Exception as e:
         return str(e)
+
+
+class GetDataUsingUserID(Resource):
+    def post(self):
+        try:
+            args = parser.parse_args()
+            username = args['username']
+            password = functions.generate_password_hash(args['password'])
+            user_id = functions.check_user_exists(username, password)
+            if user_id:
+                functions.store_last_login(user_id)
+                return functions.get_data_using_user_id(user_id)
+            else:
+                return {'error': 'You cannot access this page, please check username and password'}
+        except AttributeError:
+            return {'error': 'Please specify username and password'}
+
+api.add_resource(GetDataUsingUserID, '/api/')
+parser.add_argument('username')
+parser.add_argument('password')
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
