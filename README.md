@@ -5,32 +5,33 @@ Wanna try this app? Visit: [http://omkarpathak27.pythonanywhere.com/](http://omk
 
 # Features:
 
-* Simple Web application, easy to use and *very* easy to deploy locally.
-* Written in simple Python. Even a beginner Python developer can contribute to this.
-* Support for SQLite, so you can easily play with it.
+* Simple Web application, easy to use and *very* easy to deploy locally
+* Written in simple Python. Even a beginner Python developer can contribute to this
+* Support for SQLite, so you can easily play with it
+* REST API for retrieving data easily
 
 # Requirements:
 
-* Execute the following command to install the required third party libraries:<br />
+Execute the following command to install the required third party libraries:<br />
 
 `pip3 install -r requirements.txt`
 
 # Usage:
-* Clone this repository:
+Clone this repository:
 
 `git clone https://github.com/OmkarPathak/A-Simple-Note-Taking-Web-App.git`
 
-* Install the dependencies by simply executing:
+Install the dependencies by simply executing:
 
 `pip3 install -r requirements.txt`
 
-* Run this command to start the app:
+Run this command to start the app:
 
 `python3 manage.py`
 
-* Visit `0.0.0.0:5000` on your web browser
+Visit `0.0.0.0:5000` on your web browser
 
-* Happy Noting :)
+Happy Noting :)
 
 Built with ♥ by [`Omkar Pathak`](http://www.omkarpathak.in/)
 
