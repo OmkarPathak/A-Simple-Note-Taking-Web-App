@@ -404,6 +404,33 @@ def get_search_data(pattern, user_id):
     except:
         cursor.close()
 
+
+def get_rest_data_using_user_id(id):
+    '''
+        Function for getting the data of all notes using user_id using REST
+    '''
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM notes WHERE user_id=' + str(id))
+        results = cursor.fetchall()
+        fieldnames = [f[0] for f in cursor.description]
+        cursor.close()
+        if len(results) == 0:
+            return None
+        else:
+            data = {}
+            outer = {}
+            for i in range(len(results)):
+                for j in range(len(results[0])):
+                    data[fieldnames[j]] = results[i][j]
+                outer[i] = data
+
+            return outer
+    except:
+        cursor.close()
+
+
 # def dummy_data():
 #     conn = get_database_connection()
 #     cursor = conn.cursor()
@@ -423,5 +450,5 @@ def get_search_data(pattern, user_id):
 if __name__ == '__main__':
     # dummy_data()
     # signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
-    print(get_user_count())
+    print(get_rest_data_using_user_id(1))
     # print(get_data_using_id(1))
