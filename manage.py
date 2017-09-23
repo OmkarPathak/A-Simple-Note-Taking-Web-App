@@ -349,7 +349,7 @@ class GetDataUsingUserID(Resource):
             user_id = functions.check_user_exists(username, password)
             if user_id:
                 functions.store_last_login(user_id)
-                return functions.get_data_using_user_id(user_id)
+                return functions.get_rest_data_using_user_id(user_id)
             else:
                 return {'error': 'You cannot access this page, please check username and password'}
         except AttributeError:
