@@ -18,11 +18,19 @@
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="thumbnail"  style="padding: 3%">
                 {% for note in notes %}
-                    <a href="/notes/edit/{{ note[0] }}/" class="pull-right">
+                    <a href="/notes/edit/{{ note[0] }}/" class="pull-left">
                         <button type="button" class="btn btn-info">
                             <span class="glyphicon glyphicon-edit"></span> Edit
                         </button>
                     </a>
+
+                    <a href="/notes/delete/{{ note[0] }}/" class="pull-right">
+                        <button type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span> Delete
+                        </button>
+                    </a>
+                    <br>
+                    <br>
                     <h2>{{ note[4] | safe }}</h2>
                 {% endfor %}
             </div>
