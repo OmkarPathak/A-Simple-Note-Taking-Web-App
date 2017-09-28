@@ -419,36 +419,18 @@ def get_rest_data_using_user_id(id):
         if len(results) == 0:
             return None
         else:
-            data = {}
             outer = {}
             for i in range(len(results)):
+                data = {}
                 for j in range(len(results[0])):
                     data[fieldnames[j]] = results[i][j]
-                outer[i] = data
+                outer[int(i)] = data
 
             return outer
     except:
         cursor.close()
 
 
-# def dummy_data():
-#     conn = get_database_connection()
-#     cursor = conn.cursor()
-#     cursor.execute("INSERT INTO notes(note_title, note) VALUES (?, ?)", ('First', 'Yoo First Note'))
-#     conn.commit()
-#     cursor.close()
-
-
-# def select_data():
-#     conn = get_database_connection()
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT * FROM notes')
-#     print(cursor.fetchall())
-#     cursor.close()
-
-
-if __name__ == '__main__':
-    # dummy_data()
-    # signup_user('omkarpathak27', '8149omkar', 'omkarpathak27@gmail.com')
-    print(get_rest_data_using_user_id(1))
+# if __name__ == '__main__':
+    # print(get_rest_data_using_user_id(1))
     # print(get_data_using_id(1))
