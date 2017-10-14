@@ -50,12 +50,12 @@ def profile():
         notes = functions.get_data_using_user_id(session['id'])
         tags = []
         if notes:
-            for i in range(len(notes)):
-                tags_list = functions.get_tag_using_note_id(notes[i][0])
+            for note in notes:
+                tags_list = functions.get_tag_using_note_id(note[0])
                 temp_list = []
                 if tags_list:
-                    for j in range(len(tags_list)):
-                        temp = functions.get_data_using_tag_id(tags_list[j])
+                    for tag in tags_list:
+                        temp = functions.get_data_using_tag_id(tag)
                         if temp is not None:
                             temp_list.append(temp[0])
                 tags.append(', '.join(temp_list))
@@ -203,12 +203,12 @@ def delete_note(id):
     notes = functions.get_data_using_user_id(session['id'])
     tags = []
     if notes:
-        for i in range(len(notes)):
-            tags_list = functions.get_tag_using_note_id(notes[i][0])
+        for note in notes:
+            tags_list = functions.get_tag_using_note_id(note[0])
             temp_list = []
             if tags_list:
-                for j in range(len(tags_list)):
-                    temp = functions.get_data_using_tag_id(tags_list[j])
+                for tag in tags_list:
+                    temp = functions.get_data_using_tag_id(tag)
                     if temp is not None:
                         temp_list.append(temp[0])
             tags.append(', '.join(temp_list))
@@ -333,8 +333,8 @@ def background_process():
             return jsonify(result='')
         results = functions.get_search_data(str(notes), session['id'])
         temp = ''
-        for i in range(len(results)):
-            temp += "<h4><a href='/notes/" + str(results[i][0]) + "/'>" + results[i][1] + "</a></h4><br>"
+        for result in results:
+            temp += "<h4><a href='/notes/" + str(result[0]) + "/'>" + result[1] + "</a></h4><br>"
         return jsonify(result=Markup(temp))
     except Exception as e:
         return str(e)
