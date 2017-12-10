@@ -245,7 +245,7 @@ def view_notes_using_tag(tag_id):
     '''
         App for viewing all available notes tagged under specific tag
     '''
-    notes = functions.get_notes_using_tag_id(tag_id)
+    notes = functions.get_notes_using_tag_id(tag_id, session['id'])
     tag_name = functions.get_tagname_using_tag_id(tag_id)
     return render_template(
         'view_tag.html',

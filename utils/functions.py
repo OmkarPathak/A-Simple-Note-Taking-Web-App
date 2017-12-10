@@ -343,14 +343,14 @@ def get_number_of_tags(id):
         cursor.close()
 
 
-def get_notes_using_tag_id(tag_id):
+def get_notes_using_tag_id(tag_id, username):
     '''
         Function for retrieving notes stored by a specific tag
     '''
     conn = get_database_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute('SELECT id, note_title FROM notes WHERE tags like ?', ('%' + tag_id + '%',))
+        cursor.execute('SELECT id, note_title FROM notes WHERE user_id=? AND tags like ?', (username, '%' + tag_id + '%'))
         results = cursor.fetchall()
         cursor.close()
         return results
