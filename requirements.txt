@@ -14,5 +14,5 @@ python-dateutil==2.6.1
 python-dotenv==0.14.0
 pytz==2017.2
 six==1.11.0
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 WTForms==2.1
