@@ -59,3 +59,6 @@ target/
 
 #todos
 todo.txt
+
+#vscode config
+.vscode/
