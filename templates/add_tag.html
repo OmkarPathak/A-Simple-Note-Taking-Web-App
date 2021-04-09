@@ -3,6 +3,15 @@
 {% block content %}
     <div class="container">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              
+              {% for category, message in messages %}
+                <div class="{{ category }}">{{ message }}</div>
+              {% endfor %}
+              
+            {% endif %}
+          {% endwith %}
             {% for message in form.tag.errors %}
                 <div class="alert alert-danger">{{ message }}</div>
             {% endfor %}

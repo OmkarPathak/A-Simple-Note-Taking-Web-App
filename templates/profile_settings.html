@@ -6,9 +6,9 @@
             <div class="thumbnail" style="padding: 3%">
                 {% for user in user_data %}
                     <legend><h3 class="text-center"><b>User Details:</b></h3></legend>
-                    <h4><b>Registered on:</b> <br><br> {{ user[1] | custom_date }}</h4>
+                    <h4><b>Registered on:</b> <br><br> {{ user[1]  }}</h4>
                     <br>
-                    <h4><b>Last Logged in on:</b> <br><br> {{ user[2] | custom_date }}</h4>
+                    <h4><b>Last Logged in on:</b> <br><br> {{ user[2] }}</h4>
                     <br>
                     <h4><b>Email: <a href="/profile/settings/change_email/"><span class="glyphicon glyphicon-pencil"></span></a></b> <br><br> {{ user[5] }}</h4>
                     <br>
