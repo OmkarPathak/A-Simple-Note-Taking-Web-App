@@ -218,8 +218,17 @@ def add_tag():
     form = AddTagForm()
     if form.validate_on_submit():
         tag = request.form['tag']
-        functions.add_tag(tag, session['id'])
-        return redirect('/profile/')
+        tags = functions.get_all_tags(session['id'])
+        res = list(zip(*tags)) 
+        res = set(res[1])
+        if tag in res:
+            
+            flash("Tag Already Exists",'alert alert-danger')
+            return render_template('add_tag.html', form=form, username=session['username'])
+           
+        else:
+            functions.add_tag(tag, session['id'])
+            return redirect('/profile/')
     return render_template('add_tag.html', form=form, username=session['username'])
 
 
@@ -324,7 +333,8 @@ def background_process():
     try:
         notes = request.args.get('notes')
         if notes == '':
-            return jsonify(result='')
+            temp = "No Data Exists"
+            return jsonify(result=Markup(temp))
         results = functions.get_search_data(str(notes), session['id'])
         temp = ''
         for result in results:
